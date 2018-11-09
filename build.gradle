@@ -1,0 +1,83 @@
+subprojects {
+    apply plugin: 'eclipse-wtp'
+    apply plugin: 'java'
+    sourceCompatibility = project.javaVersion
+    targetCompatibility = project.javaVersion
+
+    eclipse {
+        classpath {
+            downloadSources = false
+            downloadJavadoc = false
+        }
+    }
+	repositories {
+    mavenCentral()
+	maven {
+		url "http://repo.spring.io/libs-snapshot"
+		
+	}
+}
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src'
+            }
+            resources {
+                srcDir 'src'
+            }
+        }
+        test {
+            java {
+                srcDir 'test'
+            }
+            resources {
+                srcDir 'test'
+            }
+        }
+    }
+
+    test {
+        ignoreFailures = true
+    }
+
+    jar {
+        manifest {
+            attributes(
+                'Specification-Version': project.buildVersion,
+                'Specification-Vendor': 'sam',
+                'Implementation-Version': project.version
+            )
+            if (System.env.JOB_NAME) {
+                attributes('Jenkins-Job': System.env.JOB_NAME)
+            }
+            if (System.env.BUILD_NUMBER) {
+                attributes('Build-Number': System.env.BUILD_NUMBER)
+            }
+            if (System.env.BUILD_ID) {
+                attributes('Build-Date-Time': System.env.BUILD_ID)
+            }
+            if (System.env.SVN_REVISION) {
+                attributes('SVN-Revision': System.env.SVN_REVISION)
+            }
+        }
+    }
+	
+    dependencies {
+        testCompile "junit:junit:4+"
+    }
+}
+
+task dependencies(type: DependencyReportTask) {
+    projects = project.allprojects
+}
+
+
+project(':interviewalgo'){
+
+dependencies {
+	compile "log4j:log4j:1.2+"  // new version ? 
+	compile 'org.slf4j:slf4j-api:1.7.10'
+	compile 'org.slf4j:slf4j-log4j12:1.7.10'
+	}
+}
