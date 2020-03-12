@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * Completed this class
- * @author lenderprice
+ * @author Sam Zhang 
  *
  */
 public class Node implements INode {
